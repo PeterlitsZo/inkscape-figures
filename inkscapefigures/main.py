@@ -21,7 +21,7 @@ def inkscape(path):
         # leaving a subprocess running after interpreter exit raises a
         # warning in Python3.7+
         warnings.simplefilter("ignore", ResourceWarning)
-        subprocess.Popen(['inkscape', str(path)])
+        subprocess.Popen(['inkscape', str(path)], shell=True)
 
 def indent(text, indentation=0):
     lines = text.split('\n');
