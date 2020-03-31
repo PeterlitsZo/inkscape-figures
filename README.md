@@ -1,24 +1,21 @@
 # Inkscape figure manager.
 
-A script I use to manage figures for my LaTeX documents.
+A script I use to manage figures for my LaTeX documents.(FOR WSL)
+(you can got to the orgion for better version)
 More information in this [blog post](https://castel.dev/post/lecture-notes-2/).
 
 ## Requirements
 
-You need Python >= 3.7, as well as a picker. Current supported pickers are:
-
-* [rofi](https://github.com/davatorium/rofi) on Linux systems
-* [choose](https://github.com/chipsenkbeil/choose) on MacOS
+Do not need rofi or other things... wsl do not support those
 
 ## Installation
 
 You can install it using pip:
 
-```
-pip3 install inkscape-figures
-```
+1. clone this
+2. build this
 
-This package currently works on Linux and MacOS. If you're interested in porting it to Windows, feel free to make a pull request.
+This package currently works on WSL. If you're interested in porting it to Windows, feel free to make a pull request.
 
 ## Setup
 
@@ -29,13 +26,6 @@ Add the following code to the preamble of your LateX document.
 \usepackage{pdfpages}
 \usepackage{transparent}
 \usepackage{xcolor}
-
-\newcommand{\incfig}[2][1]{%
-    \def\svgwidth{#1\columnwidth}
-    \import{./figures/}{#2.pdf_tex}
-}
-
-\pdfsuppresswarningpagegroup=1
 ```
 This defines a command `\incfig` which can be used to include Inkscape figures.
 By default, `\incfig{figure-name}` make the figure as wide as the page, but it's also possible to change the width by providing an optional argument: `\incfig[0.3]{figure-name}`.
@@ -55,7 +45,7 @@ figures/
 
 ## Usage
 
-* Watch for figures: `inkscape-figures watch`.
+* Watch for figures: `inkscape-figures watch`.(DO NOT NEED)
 * Creating a figure: `inkscape-figures create 'title'`. This uses `~/.config/inkscape-figures/template.svg` as a template.
 * Creating a figure in a specific directory: `inkscape-figures create 'title' path/to/figures/`.
 * Select figure and edit it: `inkscape-figures edit`.
@@ -63,11 +53,11 @@ figures/
 
 ## Vim mappings
 
-This assumes that you use [VimTeX](https://github.com/lervag/vimtex).
+This assumes that you use [VimTeX](https://github.com/lervag/vimtex).(DO NOT NEED)
 
 ```vim
-inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
-nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
+inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "./fig/"'<CR><CR>:w<CR>
+nnoremap <C-f> : silent exec '!inkscape-figures edit "./fig/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
 ```
 
 First, run `inkscape-figures watch` in a terminal to setup the file watcher.
@@ -93,8 +83,10 @@ def latex_template(name, title):
     return '\n'.join((r"\begin{figure}[ht]",
                       r"    This is a custom LaTeX template!",
                       r"    \centering",
-                      rf"    \incfig[1]{{{name}}}",
+                      rf"    \import{{{name}.pdf_tex}}",
                       rf"    \caption{{{title}}}",
                       rf"    \label{{fig:{name}}}",
                       r"\end{figure}"))
+
+inkspace_path = repr("/mnt/c/Program Files/Inkscape/inkscape.exe")
 ```
