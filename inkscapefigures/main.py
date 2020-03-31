@@ -159,7 +159,8 @@ def maybe_recompile_figure(filepath):
     # inkscape_version = subprocess.check_output([inkscape_path, '--version'], universal_newlines=True)
     # log.debug(inkscape_version)
 
-    command = (f"{filepath} --export-area-page --export-dpi 300 "
+    command = (f"{filepath} --export-area-drawing --export-dpi 300 "
+               f"--export-margin=3 "
                f"--export-pdf {pdf_path} --export-latex {filepath}")
 
     log.debug('Running command:')
@@ -319,7 +320,7 @@ def edit(root):
         return
     if 0 <= index < len(names):
         inkscape(files[index])
-        maybe_recompile_figure(figure_path)
+        maybe_recompile_figure(files[index])
     else:
         # quit
         return
